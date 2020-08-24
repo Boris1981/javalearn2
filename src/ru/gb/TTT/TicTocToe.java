@@ -10,20 +10,19 @@ public class TicTocToe {
     static final int MAP_SIZE = 3;
     static final int WIN_SIZE = 3;
     static char[][] map = new char[MAP_SIZE][MAP_SIZE];
+    static int moves = 0;
 
     public static void main (String args[]) {
-
         initGame();
         drawMap();
-        humanTurn();
-        drawMap();
-        humanTurn();
-        drawMap();
+        do{
+            humanTurn();
+            drawMap();
 
-
-
-
-
+            moves++;
+        } while (moves < MAP_SIZE*MAP_SIZE);
+        System.out.println("You filled all map! No one wins.");//unnecessary remark
+        System.exit(0);
     }
     //init
     public static void initGame() {

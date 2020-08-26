@@ -18,6 +18,10 @@ public class TicTocToe {
         do{
             humanTurn();
             drawMap();
+            if (checkWin(HUMAN_CELL)) {
+                System.out.printf("Filthy human wins after %d turns!", moves);
+                System.exit(0);
+            }
 
             moves++;
         } while (moves < MAP_SIZE*MAP_SIZE);
@@ -74,6 +78,36 @@ public class TicTocToe {
     }
 
     //check win
+    public static boolean checkWin (char symbol) {
+        for (int y=0; y<MAP_SIZE; y++) {
+            for (int x=0; x<MAP_SIZE; x++) {
+                if (
+                checkLine(x, y, 1, -1, symbol) == true || //check win at line to upper-right
+                checkLine(x, y, 1, 0, symbol) == true || //check win at horizontal line
+                checkLine(x, y, 1, 1, symbol) == true || //check win at line to lower-right
+                checkLine(x, y, 0, 1, symbol) == true //check win at vertical line
+                )
+                    return true;
+
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkLine (int x, int y, int dx, int dy, char symbol) {
+        if (map[y][x] != symbol) return false;
+        if (dx == 1 && x+WIN_SIZE < MAP_SIZE) return false;
+        if (dy > 0 && y+WIN_SIZE < MAP_SIZE) return false;
+        if (dy < 0 && y-WIN_SIZE < -1) return false;
+        int count = 0;
+        for (int i=0; i<WIN_SIZE; i++) {
+            System.out.printf("linecheck: x = %d, y = %d, i = %d\n", x,y,i);
+            if (map[y+i*dx][x+i*dx] != symbol) return false;
+        }
+        System.out.printf("X = %d, Y= %d, dx = %d, dy = %d and this is win by checkline\n", x, y, dx, dy);
+        return false;
+    }
+
     //ai turn
 
 
